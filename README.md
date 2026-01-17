@@ -26,11 +26,16 @@ Geospatial & Trend Analysis: Interactive visualizations built with Plotly to ide
 
 🛠️ Key Technical Competencies
 ETL/ELT Pipeline Design: Architecting data flows from flat-files to relational warehouses.
+
 Database Programming: Advanced PL/SQL for stored procedures, views, and DDL management.
+
 Performance Tuning: Handling million-row datasets via batch processing and optimized data types.
+
 Full-Stack Data Delivery: Bridging the gap between raw backend data and frontend business insights.
 
 📂 Repository Structure
 /scripts: Python orchestrators for ETL execution and Dashboard hosting.
+
 /sql: Schema definitions, DDL, and PL/SQL transformation logic.
+
 /docs: (Optional) Architectural diagrams and project documentation.
