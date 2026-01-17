@@ -1,55 +1,49 @@
-# 📊 Global Retail Data Integration & Analytics Pipeline
-🚀 Executive Summary
-This project features a high-performance ETL (Extract, Transform, Load) Pipeline designed to ingest, process, and analyze 1.06 million rows of retail transaction data. By leveraging Python for orchestration and Oracle XE for the data warehouse, the system converts raw, messy CSV data into a structured, audit-logged Fact table ready for executive reporting.
+# Global Retail Data Integration & Analytics Pipeline
+High-Performance ETL Orchestration: Python, Oracle XE, and PL/SQL
+📖 Executive Summary
+This repository contains a robust, end-to-end Data Engineering pipeline designed to process and analyze a large-scale retail dataset consisting of 1.06 million transactions. The architecture demonstrates the transition of raw "Bronze" layer data into a refined "Gold" layer Data Warehouse, ensuring high data integrity, auditability, and executive-level visualization.
 
-🛠️ The Tech Stack
-Orchestration: Python 3.x
-Libraries: Pandas (Data Wrangling), Oracledb (Database Driver), Plotly (Visualization)
-Database: Oracle Database XE (SQL & PL/SQL)
-Dashboard: Streamlit (Web-based Analytics)
-Environment: Linux/Git Bash
+🏗️ System Architecture & Engineering Patterns
+1. Data Extraction & Ingestion (The Orchestrator)
+The ingestion engine is built with Python, utilizing the oracledb driver and Pandas.
 
-🏗️ Data Architecture & Workflow
-The project follows a professional Staging-to-Fact (Medallion) architecture:
+Performance Optimization: Implemented Bulk-Loading techniques (executemany) to handle high-volume ingestion, reducing the overhead of individual row commits.
 
-Extraction & Cleaning: A Python engine reads the 1M+ record dataset, handles missing values (NaN), and enforces data types to ensure Oracle compatibility.
+Data Sanitization: A proactive transformation layer handles schema enforcement, null-value imputation (addressing NaN issues), and type casting to maintain database consistency.
 
-High-Speed Ingestion: Utilized Bulk Insert (executemany) techniques to load data into the STG_RETAIL_DATA table, achieving high throughput for "Big Data" volumes.
+2. Data Warehousing & Modeling (The Core)
+The solution utilizes Oracle Database XE with a structured Staging-to-Fact design pattern.
 
-PL/SQL Transformation: A dedicated stored procedure (SP_TRANSFORM_RETAIL_DATA) automates:
+Staging Layer (STG): A landing zone designed for rapid ingestion without constraints, minimizing source-system lock time.
 
-Currency/Revenue calculation (Quantity × Price).
+Production Layer (FCT): An ACID-compliant Fact table optimized for analytical queries and downstream reporting.
 
-Data validation (removing nulls and negative quantities).
+3. Business Logic & Transformation (The Processor)
+Rather than performing heavy computation in Python, this project follows the ELT (Extract, Load, Transform) philosophy:
 
-Final migration to the FCT_RETAIL_SALES production table.
+PL/SQL Stored Procedures: All business logic—including revenue calculation, multi-column validation, and data migration—is encapsulated within the database for maximum performance and security.
 
-Governance & Audit: Every run is logged in an ETL_LOG_AUDIT table, capturing record counts, timestamps, and job status (SUCCESS/FAIL).
+Audit & Governance: An automated Audit Logging System tracks every pipeline execution, recording job status, timestamps, and processed record counts to ensure data lineage and reliability.
 
-📈 Business Intelligence Dashboard
-The final layer is a real-time Streamlit Dashboard that allows stakeholders to:
+4. Analytical Insights (The Delivery)
+A real-time Streamlit Web Application serves as the consumption layer, providing:
 
-Track Key Performance Indicators (KPIs) like Total Revenue and Order Volume.
+Executive KPIs: Instant visibility into Total Revenue, Global Order Volume, and Top Performing Markets.
 
-Analyze Market Penetration via interactive "Revenue by Country" bar charts.
+Geospatial & Trend Analysis: Interactive visualizations built with Plotly to identify regional sales distributions and outliers.
 
-Monitor Data Quality by viewing the latest ETL audit logs.
+🛠️ Key Technical Competencies
+ETL/ELT Pipeline Design: Architecting data flows from flat-files to relational warehouses.
 
-📂 Project Structure
-├── data/               # Landing Zone (CSV files - ignored in Git)
-├── scripts/
-│   ├── main_etl.py     # Python Orchestrator
-│   └── dashboard.py    # Streamlit Web App
-├── sql/
-│   ├── ddl_setup.sql   # Tables & Schema creation
-│   └── procedures.sql  # PL/SQL Transformation logic
-└── README.md           # Project Documentation
+Database Programming: Advanced PL/SQL for stored procedures, views, and DDL management.
 
-💡 Key Challenges Solved
-Data Type Mismatch: Resolved DPY-3013 errors by implementing a robust Python cleaning layer to handle NaN values before database ingestion.
+Performance Tuning: Handling million-row datasets via batch processing and optimized data types.
 
-Memory Management: Optimized Pandas ingestion for 1M+ rows using low_memory=False and batch processing.
+Full-Stack Data Delivery: Bridging the gap between raw backend data and frontend business insights.
 
-Transaction Integrity: Ensured ACID compliance by using database commits only after successful PL/SQL transformation.
+📂 Repository Structure
+/scripts: Python orchestrators for ETL execution and Dashboard hosting.
 
+/sql: Schema definitions, DDL, and PL/SQL transformation logic.
 
+/docs: (Optional) Architectural diagrams and project documentation.
